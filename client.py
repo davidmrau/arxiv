@@ -42,5 +42,4 @@ while True:
         connect_to_server()
     data = json.loads(data.decode('utf-8'))
     image_path = data["image_path"]
-    os.system('fbi 4.5 1 {image_path}.jpeg')
-    os.system(f'open {image_path}')
+    os.system('fbi -t 4.5 -1 {image_path}.jpeg')
