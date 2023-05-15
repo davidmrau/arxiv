@@ -1,43 +1,46 @@
-
 import socket
 from _thread import start_new_thread
-import json 
+import json
 import time
-import cv2
-import threading
+import os
 def receive(server):
     global data
-    while True:
-        data = server.recv(1024)
-        if not data: 
-            break
-        # print the received message
-        data = json.loads(data.decode('utf-8'))
 
 def receive_message(server):
     global data
 
-host = '192.168.178.178'
+host = '192.168.178.108'
 
 # Define the port on which you want to connect
-port = 9090
+port = 7777
 
 server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
+
+
+
+def connect_to_server():
 # connect to server on local computer
-server.connect((host,port))
-
-start_new_thread(receive, (server, ))
-
-data = None 
-while True:
-    if data != None:
-        image = cv2.imread(data["image_path"])
-        #cv2.namedWindow("window", cv2.WND_PROP_FULLSCREEN)
-        #cv2.setWindowProperty("window",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
-        cv2.imshow(data["window_name"], image)
-        if cv2.waitKey(50) == 13:
+    while True:
+        try:
+            server.connect((host,port))
+            print(f'Connected to server: {host}:{port}')
+            start_new_thread(receive, (server, ))
             break
-#  cv2.destroyAllWindows()
+        except:
+            print(f'Could not connect to server: {host}:{port}')
+        time.sleep(3)
 
 
+connect_to_server()
+
+data = None
+
+while True:
+    data = server.recv(1024)
+    if not data:
+        connect_to_server()
+    data = json.loads(data.decode('utf-8'))
+    image_path = data["image_path"]
+    os.system('fbi 4.5 1 {image_path}.jpeg')
+    os.system(f'open {image_path}')
