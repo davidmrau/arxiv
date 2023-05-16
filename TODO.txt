@@ -1,0 +1,9 @@
+
+- [done] load images from folder
+- [done] git push 
+- [todo] write data to json
+- [todo] load data on website automatically
+- [todo] static ip on reload
+- [todo] keep python process alive in foreground
+- [todo] ascii portraits (maybe also print line by line)
+- [todo] fake typing 
