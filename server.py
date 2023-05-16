@@ -75,36 +75,39 @@ files_iter = iter(files)
 
 
 while True:
-    print(clients)
-    clients = check_clients(clients)
-    if len(clients) < 2:
-        if len(queue) > 0:
-            clients.append(queue.pop(0))
-
-    # get next file
     try:
-        file = next(files_iter)
-    except StopIteration:
-        random.shuffle(files)
-        files_iter = iter(files)
+        print(clients)
+        clients = check_clients(clients)
+        if len(clients) < 2:
+            if len(queue) > 0:
+                clients.append(queue.pop(0))
 
-    artist_1, artist_2 = decode_file(file)
+        # get next file
+        try:
+            file = next(files_iter)
+        except StopIteration:
+            random.shuffle(files)
+            files_iter = iter(files)
 
-    portrait_1 = f'portraits/{artist_1}.jpeg'
-    portrait_2 = f'portraits/{artist_2}.jpeg'
+        artist_1, artist_2 = decode_file(file)
 
-    portraits = [portrait_1, portrait_2]
+        portrait_1 = f'portraits/{artist_1}.jpeg'
+        portrait_2 = f'portraits/{artist_2}.jpeg'
 
-    names = [decode_name(artist_1), decode_name(artist_2)]
-    print(portraits, names)
-    for i, client in enumerate(clients):
-        img_ = portraits[i]
-        name = names[i]
-        data = json.dumps({'name': name , 'image_path' : f'{img_}.jpeg', 'window_name' : str(i)})
-        print(data)
-        send_message(client, data)
-    time.sleep(5)
-    #start_new_thread(git_push, ())
+        portraits = [portrait_1, portrait_2]
+
+        names = [decode_name(artist_1), decode_name(artist_2)]
+        print(portraits, names)
+        for i, client in enumerate(clients):
+            img_ = portraits[i]
+            name = names[i]
+            data = json.dumps({'name': name , 'image_path' : f'{img_}.jpeg', 'window_name' : str(i)})
+            print(data)
+            send_message(client, data)
+        time.sleep(5)
+        #start_new_thread(git_push, ())
+    except:
+        pass
 server.close()
 
 

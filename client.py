@@ -37,9 +37,12 @@ connect_to_server()
 data = None
 
 while True:
-    data = server.recv(1024)
-    if not data:
-        connect_to_server()
-    data = json.loads(data.decode('utf-8'))
-    image_path = data["image_path"]
-    os.system('fbi -t 4.5 -1 {image_path}.jpeg')
+    try:
+        data = server.recv(1024)
+        if not data:
+            connect_to_server()
+        data = json.loads(data.decode('utf-8'))
+        image_path = data["image_path"]
+        os.system('fbi -t 4.5 -1 {image_path}.jpeg')
+    except:
+        pass
