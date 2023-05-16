@@ -105,8 +105,12 @@ while True:
             print(data)
             send_message(client, data)
         time.sleep(5)
+        sdfk
         #start_new_thread(git_push, ())
+    except KeyboardInterrupt:
+        sys.exit(0)
     except:
+        print('Failed')
         pass
 server.close()
 

@@ -44,5 +44,8 @@ while True:
         data = json.loads(data.decode('utf-8'))
         image_path = data["image_path"]
         os.system('fbi -t 4.5 -1 {image_path}.jpeg')
+    except KeyboardInterrupt:
+        sys.exit(0)
     except:
+        print('Failed')
         pass
