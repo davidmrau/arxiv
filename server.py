@@ -20,8 +20,6 @@ def client_thread(conn):
     conn.send("Welcome to the Server. Type messages and press enter to send.\n".encode('utf-8'))
 
 
-
-
 def is_socket_closed(sock: socket.socket) -> bool:
     try:
         # this will try to read bytes without blocking and also without removing them from buffer (peek only)
