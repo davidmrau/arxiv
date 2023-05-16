@@ -6,7 +6,7 @@ import signal
 import logging
 import json 
 import random
-
+from utils import git_push
 HOST = '192.168.178.178' # all availabe interfaces
 PORT = 9090 # arbitrary non privileged port 
 
@@ -64,6 +64,7 @@ while True:
         data = json.dumps({'name': 'David Rau', 'image_path' : f'{img_}.jpeg', 'window_name' : str(i)})
         send_message(client, data)
     time.sleep(5)
+    start_new_thread(git_push, ())
 server.close()
 
 
