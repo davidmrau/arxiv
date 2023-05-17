@@ -104,7 +104,7 @@ while True:
             data = json.dumps({'name': name , 'image_path' : f'{img_}.jpeg', 'window_name' : str(i)})
             print(data)
             send_message(client, data)
-        print(f'data/{artwork_file}'
+        print(f'data/{artwork_file}')
         time.sleep(5)
         #start_new_thread(git_push, ())
     except KeyboardInterrupt:
