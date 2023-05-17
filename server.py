@@ -98,7 +98,6 @@ while True:
 
         portrait_1 = f'portraits/{artist_1}_ascii.jpeg-full.png'
         portrait_2 = f'portraits/{artist_2}_ascii.jpeg-full.png'
-        anna_atkins_ascii.jpeg-full.png
         portraits = [portrait_1, portrait_2]
 
         names = [decode_name(artist_1), decode_name(artist_2)]
