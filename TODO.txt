@@ -1,11 +1,11 @@
 
 - [done] load images from folder
 - [done] git push 
-- [todo] static ip on reload
-- [todo] keep python process alive in foreground
+- [done] static ip on reload
+- [done] keep python process alive in foreground
 - [todo] write data to json
 - [todo] load data on website automatically
 - [todo] ascii portraits (maybe also print line by line)
-- [todo] fake typing
+- [done] fake typing
 - [todo] style website
 - [todo] create QR and forward to github website 

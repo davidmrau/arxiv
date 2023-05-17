@@ -18,6 +18,11 @@ server.listen(2)
 
 print("Listening...")
 
+def write(text, sleep=0.1):
+    for i in text:
+        time.sleep(sleep)
+        print(i, end='', flush=True
+
 def client_thread(conn):
     conn.send("Welcome to the Server. Type messages and press enter to send.\n".encode('utf-8'))
 
@@ -76,7 +81,7 @@ files_iter = iter(files)
 
 while True:
     try:
-        print(clients)
+        #print(clients)
         clients = check_clients(clients)
         if len(clients) < 2:
             if len(queue) > 0:
@@ -91,26 +96,30 @@ while True:
 
         artist_1, artist_2 = decode_file(artwork_file)
 
-        portrait_1 = f'portraits/{artist_1}.jpeg'
-        portrait_2 = f'portraits/{artist_2}.jpeg'
-
+        portrait_1 = f'portraits/{artist_1}_ascii.jpeg-full.png'
+        portrait_2 = f'portraits/{artist_2}_ascii.jpeg-full.png'
+        anna_atkins_ascii.jpeg-full.png
         portraits = [portrait_1, portrait_2]
 
         names = [decode_name(artist_1), decode_name(artist_2)]
-        print(portraits, names)
+        #print(portraits, names)
+
+        os.system('clear')
+        write(f"Generating new speculative artwork between {names[0]} and {names[1]}...")
+        time.sleep(3)
+
         for i, client in enumerate(clients):
             img_ = portraits[i]
             name = names[i]
             data = json.dumps({'name': name , 'image_path' : f'{img_}.jpeg', 'window_name' : str(i)})
-            print(data)
+            #print(data)
             send_message(client, data)
-        print(f'data/{artwork_file}')
-        time.sleep(5)
+        os.system(f'fbi -t 4.5 -1 data/{artwork_file}')
         #start_new_thread(git_push, ())
     except KeyboardInterrupt:
         sys.exit(0)
-    except:
-        print('Failed')
+    except Exception as e:
+        print(f'Failed: {e}')
         pass
 server.close()
 
