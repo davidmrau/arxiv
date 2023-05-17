@@ -9,7 +9,7 @@ def receive(server):
 def receive_message(server):
     global data
 
-host = '192.168.178.108'
+host = '192.168.178.100'
 
 # Define the port on which you want to connect
 port = 7777

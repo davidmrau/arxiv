@@ -9,8 +9,8 @@ import random
 from utils import git_push
 import os
 import re
-HOST = '192.168.178.178' # all availabe interfaces
-PORT = 9090 # arbitrary non privileged port 
+HOST = '192.168.178.100' # all availabe interfaces
+PORT = 7777 # arbitrary non privileged port 
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((HOST, PORT))
@@ -84,12 +84,12 @@ while True:
 
         # get next file
         try:
-            file = next(files_iter)
+            artwork_file = next(files_iter)
         except StopIteration:
             random.shuffle(files)
             files_iter = iter(files)
 
-        artist_1, artist_2 = decode_file(file)
+        artist_1, artist_2 = decode_file(artwork_file)
 
         portrait_1 = f'portraits/{artist_1}.jpeg'
         portrait_2 = f'portraits/{artist_2}.jpeg'
@@ -104,8 +104,8 @@ while True:
             data = json.dumps({'name': name , 'image_path' : f'{img_}.jpeg', 'window_name' : str(i)})
             print(data)
             send_message(client, data)
+        print(f'data/{artwork_file}'
         time.sleep(5)
-        sdfk
         #start_new_thread(git_push, ())
     except KeyboardInterrupt:
         sys.exit(0)
