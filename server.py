@@ -21,7 +21,7 @@ print("Listening...")
 def write(text, sleep=0.1):
     for i in text:
         time.sleep(sleep)
-        print(i, end='', flush=True
+        print(i, end='', flush=True)
 
 def client_thread(conn):
     conn.send("Welcome to the Server. Type messages and press enter to send.\n".encode('utf-8'))
