@@ -9,7 +9,9 @@ import random
 from utils import git_push
 import os
 import re
-HOST = '192.168.178.100' # all availabe interfaces
+hostname = socket.gethostname()
+HOST = socket.gethostbyname(hostname)
+#HOST = '192.168.178.100' # all availabe interfaces
 PORT = 7777 # arbitrary non privileged port 
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -56,8 +58,8 @@ def wait_for_connections():
 def send_message(client, data):
     client.sendall(bytes(data,encoding="utf-8"))
 
-def get_files():
-    file_list = [ f for f in os.listdir('data') if f.endswith('.jpeg')]
+def get_files(artworks_folder):
+    file_list = [ f for f in os.listdir(artworks_folder) if f.endswith('.jpeg')]
     return file_list
 
 def decode_file(file_name):
@@ -70,14 +72,23 @@ def decode_file(file_name):
 def decode_name(name_sep):
     return name_sep.replace('_', ' ').title()
 
+def write_data(name1, name2, img_path, file):
+    with open(file, 'a') as f:
+        data = {'name1': name1, 'name2': name2, 'img': img_path}
+        data_json = json.dumps(data)
+        f.write(data_json + '\n')
+
 start_new_thread(wait_for_connections, ())
 clients = list()
 queue = list()
 
-files = get_files()
+data_path = 'data.jsonl'
+portraits_folder = 'portraits'
+artworks_folder = 'data'
+
+files = get_files(artworks_folder)
 random.shuffle(files)
 files_iter = iter(files)
-
 
 while True:
     try:
@@ -96,24 +107,23 @@ while True:
 
         artist_1, artist_2 = decode_file(artwork_file)
 
-        portrait_1 = f'portraits/{artist_1}_ascii.jpeg-full.png'
-        portrait_2 = f'portraits/{artist_2}_ascii.jpeg-full.png'
+        portrait_1 = f'{portraits_folder}/{artist_1}_ascii.jpeg-full.png'
+        portrait_2 = f'{portraits_folder}/{artist_2}_ascii.jpeg-full.png'
         portraits = [portrait_1, portrait_2]
 
         names = [decode_name(artist_1), decode_name(artist_2)]
-        #print(portraits, names)
 
         os.system('clear')
         write(f"Generating new speculative artwork between {names[0]} and {names[1]}...")
         time.sleep(3)
-
+        time.sleep(1)
         for i, client in enumerate(clients):
             img_ = portraits[i]
             name = names[i]
             data = json.dumps({'name': name , 'image_path' : f'{img_}.jpeg', 'window_name' : str(i)})
-            #print(data)
             send_message(client, data)
-        os.system(f'fbi -t 4.5 -1 data/{artwork_file}')
+        #os.system(f'fbi -t 4.5 -1 {artworks_folder}/{artwork_file}')
+        start_new_thread(write_data, (names[0], names[1], f'{artworks_folder}/{artwork_file}', data_path))
         #start_new_thread(git_push, ())
     except KeyboardInterrupt:
         sys.exit(0)
